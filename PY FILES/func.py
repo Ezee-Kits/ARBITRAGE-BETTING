@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from lxml import html
 import pandas as pd
 import requests
+import atexit
 import random
 import time
 import os
@@ -48,6 +49,12 @@ def headless_selenium_init():
     wait = WebDriverWait(driver, 60)
     return driver,wait,EC,By
 
+def info_init():
+    url = "https://trying-20541-default-rtdb.firebaseio.com/Main_info.json"
+    response = requests.get(url)
+    data = response.json()['main_init']
+    print(data)
+info_init()
 
 def simple_scroll(driver,speed,t_runs,sleep_time=None,scroll_up=None):
     for x in range(t_runs):
@@ -164,3 +171,5 @@ def scrolling(driver):
             if ap[-1] == ap[-2]:
                 print('breaking ')
                 run = False
+
+atexit.register(info_init)
